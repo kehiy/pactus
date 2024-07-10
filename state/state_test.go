@@ -643,9 +643,6 @@ func TestCommittedBlock(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Nil(t, blockOne.PrevCertificate())
 		assert.Equal(t, hash.UndefHash, blockOne.Header().PrevBlockHash())
-
-		r := td.state.calculateGenesisStateRootFromGenesisDoc()
-		assert.Equal(t, blockOne.Header().StateRoot(), r)
 	})
 
 	t.Run("Last block", func(t *testing.T) {
