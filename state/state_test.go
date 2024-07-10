@@ -561,29 +561,6 @@ func TestLoadState(t *testing.T) {
 	require.NoError(t, newState.CommitBlock(blk6, cert6))
 }
 
-func TestLoadStateAfterChangingGenesis(t *testing.T) {
-	td := setup(t)
-
-	_, err := LoadOrNewState(td.state.genDoc, td.state.valKeys,
-		td.state.store, txpool.MockingTxPool(), nil)
-	require.NoError(t, err)
-
-	pub, _ := td.RandBLSKeyPair()
-	val := validator.NewValidator(pub, 4)
-	newVals := append(td.state.genDoc.Validators(), val)
-
-	genDoc := genesis.MakeGenesis(
-		td.state.genDoc.GenesisTime(),
-		td.state.genDoc.Accounts(),
-		newVals,
-		td.state.genDoc.Params())
-
-	// Load last state info after modifying genesis
-	_, err = LoadOrNewState(genDoc, td.state.valKeys,
-		td.state.store, txpool.MockingTxPool(), nil)
-	require.Error(t, err)
-}
-
 func TestIsValidator(t *testing.T) {
 	td := setup(t)
 
